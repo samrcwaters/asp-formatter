@@ -1,13 +1,15 @@
 // Source: https://stackoverflow.com/questions/36639681/how-to-copy-text-from-a-div-to-clipboard/51261023
 const copyToClipboard = () => {
   if (document.selection) {
-    var range = document.body.createTextRange();
-    range.moveToElementText(document.getElementById("formatted"));
+    let range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById("formatted-text"));
     range.select().createTextRange();
     document.execCommand("copy");
   } else if (window.getSelection) {
-    var range = document.createRange();
-    range.selectNode(document.getElementById("formatted"));
+    let selection = window.getSelection();
+    let range = document.createRange();
+    range.selectNode(document.getElementById("formatted-text"));
+    selection.removeAllRanges();
     window.getSelection().addRange(range);
     document.execCommand("copy");
   }
@@ -16,7 +18,7 @@ const copyToClipboard = () => {
 const format = () => {
   let text = document.getElementById("preformatted").value;
   text = `" ${text.replace(/(\n)+/g, ' "&_\n" ')} "`;
-  document.getElementById("formatted").innerHTML = `<pre>${text}</pre>`;
+  document.getElementById("formatted").innerHTML = `<pre id="formatted-text">${text}</pre>`;
 };
 
 document.getElementById("preformatted").value = `INSERT INTO clients
